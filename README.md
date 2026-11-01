@@ -2,6 +2,14 @@
 
 ## Framebuffer audio recovery fix
 
+### Two monitors with built-in speakers
+
+This fix is intended for a setup with **two HDMI/DisplayPort monitors with
+built-in speakers** whose monitor audio outputs disappear after login. It
+restores the missing audio outputs on the tested NVIDIA/macOS setup so either
+monitor can be selected in **System Settings → Sound → Output**. Each monitor
+is available as a separate audio output.
+
 This branch allows NMHDA's existing callbacks to retry a framebuffer audio
 notification when a previously registered audio sink disappears. It recovered
 both monitor outputs on one tested RTX 5070 / macOS 15.8.2 setup after login.
