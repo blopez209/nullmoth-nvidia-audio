@@ -1,5 +1,19 @@
 # nullmoth-nvidia-audio (`NMHDA.kext`)
 
+## Framebuffer audio recovery fix
+
+This branch allows NMHDA's existing callbacks to retry a framebuffer audio
+notification when a previously registered audio sink disappears. It recovered
+both monitor outputs on one tested RTX 5070 / macOS 15.8.2 setup after login.
+See the [change, test evidence, build instructions, and rollback steps](docs/framebuffer-audio-retry.md).
+The separately named trial build is [NMHDA-framebuffer-retry.zip](Release/NMHDA-framebuffer-retry.zip);
+the original release files remain available below.
+
+Other PCs may need changes for their GPU, macOS version, or driver. You may
+need an AI coding assistant to help adapt the patch using your logs and the
+matching source. Any modified build still needs review, a backup, and testing
+on that machine. Compatibility is currently confirmed on one setup.
+
 **Universal HDMI & DisplayPort Audio + Native Volume & Mute Control for NVIDIA RTX GPUs on macOS Sequoia (15) & Tahoe (26)**
 
 > [!NOTE]
@@ -74,7 +88,7 @@ debug.nmhda: waiting for AppleHDA | AppleHDAController loaded (index 1) | HD Aud
 ## Building from Source
 
 ```bash
-git clone https://github.com/emirercan3459/nullmoth-nvidia-audio.git
+git clone https://github.com/blopez209/nullmoth-nvidia-audio.git
 cd nullmoth-nvidia-audio
 bash ./build.sh
 ```
