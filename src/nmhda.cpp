@@ -275,7 +275,11 @@ static void triggerNvidiaFramebufferEvents(void *self, const char *tag) {
         void *fb = *(void **)(assoc + 0x00);
         void *sink = *(void **)(assoc + 0x18);
         uint32_t headIdx = *(uint32_t *)(assoc + 0x28);
-        if (fb && !sink && gNotifiedFb[i] != fb) {
+        // AppleHDA can tear down a previously registered DP engine after a
+        // framebuffer connection change (for example, the rotated-head event).
+        // Re-announce the framebuffer whenever a later callback finds no sink;
+        // gNotifiedFb is diagnostic state, not a one-shot suppression flag.
+        if (fb && !sink) {
             gNotifiedFb[i] = fb;
             IOReturn gr = fnFramebufferEventGate(self, (void *)(uintptr_t)headIdx, fb, 2, nullptr);
             sink = *(void **)(assoc + 0x18);
